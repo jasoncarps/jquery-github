@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CSS Framework - Position plugin</title>
+		<link rel="stylesheet" href="css/position.css" />
+	</head>
+	<body>
+		<div class="ui-positioning-element">
+			I am positioned against
+		</div>
+		<div class="ui-positioned-element">
+			I am being positioned 
+		</div>
+		<script src="development-bundle/jquery-1.7.2.js"></script>
+		<script src="development-bundle/ui/jquery.ui.position.js"></script>
+		<script>
+			$(function() {
+				$(".ui-positioned-element").position({
+					of: ".ui-positioning-element",
+					my: "left center",
+					at: "right center"
+				});
+			});
+		</script>
+		
+	</body>
+</html>

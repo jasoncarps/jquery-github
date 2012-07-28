@@ -1,0 +1,137 @@
+<html>
+<head>
+	<title>Tabs</title>
+	<link rel="stylesheet" href="css/south-street/jquery-ui-1.8.21.custom.css" />
+	<link rel="stylesheet" href="css/tabsTheme.css" />
+</head>
+
+<body>
+	<div id="myTabs">
+		<ul>
+			<li><a href="#a">Tab 1</a></li>
+			<li><a href="#b">Tab 2</a></li>
+			<li><a href="#flickr"><span>Images</span></a></li>
+			<li><a href="http://localhost:8080/jquery/resources/remoteTab.txt">Ajax Tab</a></li>
+		</ul>
+		<div id="a">This is the content panel linked to the first tab, it is shown by default.</div>
+		<div id="b">This content is linked to the second tab and will be shown when its tab is clicked</div>
+		<div id="flickr"></div>
+	</div>
+	<div id="json"></div>
+	
+<!-- 	<div> -->
+<!-- 		<p> -->
+<!-- 			<input type="button" id="enable">Enable</button> -->
+<!-- 			<input type="button" id="disable">Disable</button> -->
+<!-- 		</p> -->
+<!-- 		<select id="fileChooser"> -->
+<!-- 			<option value="remoteTab">tabContent.html</option> -->
+<!-- 			<option value="remoteTab2">tabContent2.html</option> -->
+<!-- 		</select> -->
+		
+<!-- 		<label>Enter a tab to remove:</label> -->
+<!-- 		<input for="indexNum" id="indexNum" /> -->
+<!-- 		<button type="button" id="remove">Remove!</button><br/> -->
+<!-- 		<button type="button" id="add">Add a new tab!</button><br/> -->
+<!-- 		<button type="button" id="destroy">Destroy the tabs</button><br/> -->
+<!-- 		<button type="button" id="show">Show Selected!</button><br/> -->
+<!-- 	</div> -->
+	
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var baseUrl = "http://localhost:8080/jquery/resources/";
+			
+			/*function handleSelect(e, tab) {
+				$("<p></p>", {
+					text: "Tab at index" + tab.index + " selected",
+					"class": "status-message ui-corner-all"
+				}).appendTo(".ui-tabs-nav", "#myTabs").fadeOut(5000,function() {
+					$(this).remove();
+				});
+			}*/
+			
+			function handleSelect(event, ui) {
+				if(ui.tab.toString().indexOf("flickr") != -1) {
+					
+					$("#flickr").empty();
+					
+					$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=" +
+						"nebula&format=json&jsoncallback=?", function(data) {
+						
+						$.each(data.items, function(i,item) {
+							img.clone().attr("src", item.media.m).appendTo("#flickr");
+							
+							if(i == 5) {
+								return false;
+							}
+						});
+					});
+				}
+			}
+			
+			var img = $("<img/>", {
+				height: 100,
+				width: 100
+			});
+			
+			var tabOpts = {
+				selected:0,
+				spinner: "Now Loading brah...",
+				collapsible:false,
+				
+				fx: [
+			    {
+					opacity: "toggle",
+					duration: "fast"
+				},
+				null		
+				],
+				
+				select: handleSelect,
+				load : function(evt, tab) {
+					console.log("load : " + evt + " on tab " + tab.index);
+				}
+			};
+			
+			$("#disable").click(function() {
+				$("#myTabs").tabs("disable",1)
+			});
+			
+			$("#enable").click(function() {
+				$("#myTabs").tabs("enable",1)
+			});
+			
+			$("#remove").click(function() {
+				$("#myTabs").tabs("remove", parseInt($("#indexNum").val(),10));
+			});
+			
+			$("#add").click(function() {
+				$("#myTabs").tabs("add","remoteTab.txt", "A New Tab!");
+			});
+			
+			$("#destroy").click(function() {
+				$("#myTabs").tabs("destroy");
+			});
+			
+			$("#show").click(function() {
+				$("<p></p>", {
+					text: "Tab at index " + $("#myTabs").tabs("option","selected") + " is active"
+				}).appendTo(".ui-tabs-nav").fadeOut(5000);
+			});
+			
+			$("#fileChooser").change(function() {
+// 				$("<p></p>", {
+// 					text: "changing ajax tab to " + $(this).val()
+// 				}).appendTo(".ui-tabs-nav").fadeOut(5000);
+				$("#myTabs").tabs("url", 3, baseUrl + $(this).val() + ".txt").tabs("load",3);
+			});
+			
+			$("#myTabs").tabs(tabOpts).tabs("option","disabled",[0,2,3]).tabs("option","selected",1);
+			//$("#myTabs").tabs("rotate",1000,true);
+		});
+	</script>
+</body>
+
+</html>

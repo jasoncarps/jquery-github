@@ -1,0 +1,50 @@
+<html>
+<head>
+	<title>Button Widget</title>
+	<link rel="stylesheet" href="css/south-street/jquery-ui-1.8.21.custom.css" />
+	<link rel="stylesheet" href="css/tabsTheme.css" />
+	
+	<style>
+	.iconic-input {display:inline-block; position:relative;}
+	.ui-icon {z-index:2;}
+	.iconic-input input { border:none; margin:0;}
+	</style>
+</head>
+
+
+jason was here.
+<body>
+
+	<a class="myButton" href="some_other_page.html">An &lt;a&gt; button</a><br/>
+	<button class="myButton">A &lt;button&gt; button</button><br/>
+	<div class="iconic-input ui-button-text-icons ui-state-default ui-corner-all">
+		<span class="ui-button-icon-primary ui-icon ui-icon-disk"></span>
+		<input type="button" id="myInputBtn" class="myButton ui-button-text" value="An &lt;input&gt; button" />
+		<span class="ui-button-icon-secondary ui-icon ui-icon-triangle-1-s"></span>
+	</div>
+	
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var btnOpts = {
+				//label : "new button label",
+				//text:false,
+				icons: {
+					primary: "ui-icon-disk",
+					secondary : "ui-icon-triangle-1-s"
+				},
+			
+			};
+			
+			$('.ui-button-text').button().hover(function() {
+				$(this).parent().addClass("ui-state-hover");
+			}, function() {
+				$(this).parent().removeClass("ui-state-hover");
+			});
+			
+			$(".myButton").button(btnOpts);
+		});
+	</script>
+</body>
+</html>
