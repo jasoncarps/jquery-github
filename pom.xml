@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.jason</groupId>
 	<artifactId>jquery</artifactId>
-	<name>jquery uii</name>
+	<name>jquery ui</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
